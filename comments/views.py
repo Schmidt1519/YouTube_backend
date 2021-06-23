@@ -50,7 +50,7 @@ class CommentDetail(APIView):
             pass
         try:
             if request.query_params['dislike']:
-                comment.like_count = comment.like_count - 1
+                comment.like_count = comment.dislike + 1
         except:
             pass
         if serializer.is_valid():
