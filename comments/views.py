@@ -20,3 +20,45 @@ class CommentList(APIView):
         except Comment.DoesNotExist:
             raise Http404
 
+    def post(self, request):
+        serializer = CommentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class CommentDetail(APIView):
+
+    def get_object(self, pk):
+        try:
+            return Comment.objects.get(pk=pk)
+        except Comment.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk):
+        comment = self.get_object(pk)
+        serializer = CommentSerializer(comment)
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        comment = self.get_object(pk)
+        serializer = CommentSerializer(comment, data=request.data)
+        try:
+            if request.query_params['like']:
+                comment.like_count = comment.like_count + 1
+        except:
+            pass
+        try:
+            if request.query_params['dislike']:
+                comment.like_count = comment.like_count - 1
+        except:
+            pass
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        comment = self.get_object(pk)
+        comment.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
