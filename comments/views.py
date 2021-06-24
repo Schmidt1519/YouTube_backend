@@ -11,7 +11,6 @@ from django.http import Http404
 
 # Create your views here.
 class CommentList(APIView):
-
     def get(self, request):
         try:
             comment = Comment.objects.all()
@@ -26,6 +25,7 @@ class CommentList(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class CommentDetail(APIView):
 
