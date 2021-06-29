@@ -76,30 +76,30 @@ class ReplyList(APIView):
 
 class ReplyDetail(APIView):
 
-    def get_object(self, pk):
+    def get_object(self, comment):
         try:
-            return Reply.objects.get(pk=pk)
-        except Reply.DoesNotExist:
+            return Reply.objects.filter(comment=comment)
+        except Comment.DoesNotExist:
             raise Http404
 
-    def get(self, request, pk):
+    def get(self, request, comment):
         try:
-            reply = self.get_object(pk)
-            serializer = ReplySerializer(reply)
+            reply = self.get_object(comment)
+            serializer = ReplySerializer(reply, many=True)
             return Response(serializer.data)
         except Comment.DoesNotExist:
             raise Http404
 
-    def put(self, request, pk):
-        comment = self.get_object(pk)
+    def put(self, request, comment):
+        comment = self.get_object(comment)
         serializer = ReplySerializer(comment, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, pk):
-        reply = self.get_object(pk)
+    def delete(self, request, comment):
+        reply = self.get_object(comment)
         reply.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
