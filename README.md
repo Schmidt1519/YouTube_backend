@@ -1,2 +1,9 @@
-# YouTube_backend
-this is the backend to the YouTube Clone App Project
+# YouTube Clone (backend)
+This is the backend API for a YouTube clone partner project whose frontend was created with React.js. YouTube clone was my first project working with an outside API (YouTube API) and the API interacted with a MySQL database. API views include get, post, update, and delete comments and replies using Django REST API. Also a patch request for comments likes.
+
+## Technologies
+* Python
+* Django REST Framework
+* MySQL
+* Postman
+* YouTube API
