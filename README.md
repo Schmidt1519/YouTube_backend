@@ -7,3 +7,6 @@ This is the backend API for a YouTube clone partner project whose frontend was c
 * MySQL
 * Postman
 * YouTube API
+
+## Related
+Link to Frontend: https://github.com/Schmidt1519/YouTube_frontend
